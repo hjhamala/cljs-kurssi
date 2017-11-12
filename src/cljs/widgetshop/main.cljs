@@ -53,6 +53,15 @@
             [ui/flat-button {:primary true :on-click #(products/add-to-cart! product)}
              "Add to cart"]]])]])))
 
+(defn category-page
+  [app]
+  [ui/paper
+   [category-selector app]
+   [products-listing app]
+   [ui/raised-button {:label        "Click me"
+                      :icon         (ic/social-group)
+                      :on-click     #(println "clicked")}]])
+
 (defn widgetshop [app]
   [ui/mui-theme-provider
    {:mui-theme (get-mui-theme
@@ -64,12 +73,7 @@
                                           :badge-style {:top 12 :right 12}}
                                 [ui/icon-button {:tooltip "Checkout"}
                                  (ic/action-shopping-cart)]])}]
-    [ui/paper
-     [category-selector app]
-     [products-listing app]
-     [ui/raised-button {:label        "Click me"
-                        :icon         (ic/social-group)
-                        :on-click     #(println "clicked")}]]]])
+    [category-page app]]])
 
 (defn main-component []
   [widgetshop @state/app])

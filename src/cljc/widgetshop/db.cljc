@@ -14,5 +14,5 @@
 (s/def ::loading #(= :loading %))
 (s/def ::products (s/or :loading ::loading :products (s/coll-of ::product)))
 (s/def ::products-by-category (s/every-kv ::category ::products))
-(s/def ::db (s/keys :req-un [::category ::categories ::products-by-category]))
+(s/def ::db (s/keys :req-un [::cart ::category ::categories ::products-by-category]))
 
