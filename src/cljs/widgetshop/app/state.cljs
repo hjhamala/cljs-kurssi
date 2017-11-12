@@ -9,7 +9,10 @@
                       :category nil ;; the selected category
 
                       ;; Loaded product listings keyd by selected category
-                      :products-by-category {}}))
+                      :products-by-category {}
+                      :ui {:selected-category nil
+                           :selected-product nil
+                           :page :category-page}}))
 
 (defn update-state!
   "Updates the application state using a function, that accepts as parameters

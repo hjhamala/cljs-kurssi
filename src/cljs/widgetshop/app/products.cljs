@@ -13,6 +13,7 @@
   (let [category (some #(when (= (:id %) category-id) %) categories)]
     (server-get-fn! category)
     (-> app
+        (assoc-in [:ui :selected-category] category)
         (assoc :category category)
         (assoc-in [:products-by-category category] :loading))))
 

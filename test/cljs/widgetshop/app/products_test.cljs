@@ -18,7 +18,8 @@
                          {:id 1 :name :bar}]}
            (constantly "whatever doesn't matter")
            1)
-         {:category {:id 1 :name :bar}
+         {:ui {:selected-category {:id 1, :name :bar}}
+          :category {:id 1 :name :bar}
           :categories [{:id 2 :name :foo}
                        {:id 1 :name :bar}]
           :products-by-category {{:id 1 :name :bar} :loading}})))
