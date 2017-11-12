@@ -25,9 +25,11 @@
    {:mui-theme (get-mui-theme
                 {:palette {:text-color (color :green600)}})}
    [:div
-    [material-ui/app-bar {:title "Widgetshop!"
+    [material-ui/app-bar {:id "app-bar"
+                          :title "Widgetshop!"
                  :icon-element-right
-                 (r/as-element [material-ui/badge {:badge-content (products/cart-size app)
+                 (r/as-element [material-ui/badge {:id "cart-size"
+                                                   :badge-content (products/cart-size app)
                                           :badge-style {:top 12 :right 12}}
                                 [material-ui/icon-button {:tooltip "Checkout"}
                                  (ic/action-shopping-cart)]])}]
