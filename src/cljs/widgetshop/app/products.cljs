@@ -1,6 +1,7 @@
 (ns widgetshop.app.products
   "Controls product listing information."
   (:require [widgetshop.app.state :as state]
+            [average]
             [widgetshop.server :as server]))
 
 (defn- products-by-category [app category products]
@@ -48,6 +49,31 @@
   (state/update-state!
     add-to-cart
     product))
+
+(defn calculate-average
+  [review-entries-map]
+  (average (clj->js (vals review-entries-map))))
+
+(defn review
+  [app product]
+  (let [reviews (-> (:stars app)
+                    (get product))]
+    (if (nil? reviews)
+      "-"
+      (calculate-average reviews))))
+
+(defn review-by-user
+  [app product]
+  (get-in app [:stars product (:logged-user app)]))
+
+(defn give-review
+  [app product review-score]
+  (update-in app [:stars product] #(assoc % (:logged-user app) review-score)))
+
+(defn give-review!
+  [product review-score]
+  (state/update-state!
+    give-review product review-score))
 
 (defn cart-size
   [app]

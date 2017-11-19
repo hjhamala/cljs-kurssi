@@ -1,14 +1,16 @@
 (ns widgetshop.app.state
   "Defines the application state atom"
   (:require [reagent.core :as r]
+            [js.uuid :as uuid4]
             [widgetshop.db :as db]
             [cljs.spec.alpha :as s]))
 
 (defonce app (r/atom {:cart {}
                       :categories :loading ;; list of product categories
-                      :category nil ;; the selected category
 
                       ;; Loaded product listings keyd by selected category
+                      :stars {}
+                      :logged-user (uuid4/genuuid)
                       :products-by-category {}
                       :ui {:selected-category nil
                            :selected-product nil

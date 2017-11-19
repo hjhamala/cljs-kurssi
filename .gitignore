@@ -1,8 +1,10 @@
 resources/public/js
+.cljs_rhino_repl
 .idea/
 target/
 figwheel_server.log
 .lein-repl-history
 .nrepl-port
+node_modules
 cljs-kurssi.iml
 out/

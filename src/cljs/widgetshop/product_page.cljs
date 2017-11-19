@@ -27,6 +27,13 @@
         [material-ui/table-row
          [material-ui/table-row-column "Price"]
          [material-ui/table-row-column price]]]]
+       [:div "Please review this fine piece of goodness"]
+       [:div
+         (for [review-button (range 1 6)]
+           (if (= (products/review-by-user app product) review-button)
+             [material-ui/raised-button {:key (str "button" review-button) :primary true :on-click #(products/give-review! product review-button)} review-button]
+             [material-ui/flat-button {:key (str "button" review-button) :primary true :on-click #(products/give-review! product review-button)} review-button]))]
+       [:div ""]
        [material-ui/flat-button {:primary true :on-click #(ui/set-page! :category-page)} "Back to category selector"]])))
 
 (defn get

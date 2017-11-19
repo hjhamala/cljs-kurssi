@@ -37,7 +37,7 @@
                  [cljsjs/react "15.6.1-1"]
                  [cljsjs/react-dom "15.6.1-1"]
                  [cljs-react-material-ui "0.2.48"]
-                 [figwheel "0.5.10"]
+                 [figwheel "0.5.11"]
 
                  ;; Something pulls an old guava which prevents closure compiler
                  ;; override here
@@ -45,10 +45,14 @@
                  ]
 
   :plugins [[lein-cljsbuild "1.1.5"]
-            [lein-figwheel "0.5.10"]
+            [lein-cooper "1.2.2"]
+            [lein-figwheel "0.5.11"]
             [lein-doo "0.1.7"]]
 
-  :repl-options {:port 51902}
+  :repl-options {:port 51902
+                 :init-ns widgetshop.main
+                 :init (-main)
+                 :resource-paths ^:replace ["resources" "dev/resources" "target/figwheel"]}
 
   ;; Sources for backend: clj and cljc (shared with frontend)
   :source-paths ["src/clj" "src/cljc"]
@@ -59,6 +63,8 @@
                 :source-paths ["src/cljs" "src/cljc"]
                 :figwheel     {:on-jsload "widgetshop.main/reload-hook"}
                 :compiler     {:optimizations :none
+                               :foreign-libs [{:file "src" :module-type :es6}]
+                               :npm-deps {:average "0.1.0"}
                                :source-map    true
                                :output-to     "resources/public/js/widgetshop.js"
                                :output-dir    "resources/public/js/out"}}]}
@@ -81,4 +87,10 @@
   :aliases {
             "run-doo"      ["with-profile" "doo" "doo" "phantom" "cljs-test"]
             }
+
+  :cooper {"cljsbuild" ["lein" "trampoline" "cljsbuild" "auto"]
+           "backend" ["lein" "trampoline" "repl" ":headless"]
+           "doo" ["lein" "trampoline" "run-doo"]
+           "figwheel" ["lein" "trampoline" "figwheel"]}
+
   :main widgetshop.main)

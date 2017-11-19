@@ -2,10 +2,12 @@
   "Main entrypoint for the widgetshop frontend."
   (:require [reagent.core :as r]
             [cljsjs.material-ui]
+            ;[js.uuid]
             [cljs-react-material-ui.core :refer [get-mui-theme color]]
             [cljs-react-material-ui.reagent :as material-ui]
             [cljs-react-material-ui.icons :as ic]
             [widgetshop.app.state :as state]
+            [widgetshop.app.user :as user]
             [widgetshop.app.products :as products]
             [widgetshop.app.ui :as ui]
             [widgetshop.category-page :as category-page]
@@ -33,6 +35,8 @@
                                           :badge-style {:top 12 :right 12}}
                                 [material-ui/icon-button {:tooltip "Checkout"}
                                  (ic/action-shopping-cart)]])}]
+    [:p "Hello user! " (user/info app)]
+    [material-ui/flat-button {:primary true :on-click user/switch!} "Switch user"]
     [show-page app]]])
 
 (defn main-component []

@@ -36,6 +36,7 @@
          [material-ui/table-header-column "Name"]
          [material-ui/table-header-column "Description"]
          [material-ui/table-header-column "Price (€)"]
+         [material-ui/table-header-column "Review"]
          [material-ui/table-header-column "Add to cart"]]]
        [material-ui/table-body {:display-row-checkbox false}
         (for [{:keys [id name description price] :as product} (products/by-category app (:category app))]
@@ -44,6 +45,7 @@
            [material-ui/table-row-column [:div {:on-click #(ui/select-product! product)} name]]
            [material-ui/table-row-column description]
            [material-ui/table-row-column price]
+           [material-ui/table-row-column (products/review app product)]
            [material-ui/table-row-column
             [material-ui/flat-button {:id (str "add-to-cart-button-" id)
                                       :primary true :on-click #(products/add-to-cart! product)}
