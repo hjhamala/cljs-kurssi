@@ -2,7 +2,7 @@
   "Main entrypoint for the widgetshop frontend."
   (:require [reagent.core :as r]
             [cljsjs.material-ui]
-            ;[js.uuid]
+            [js.uuid]
             [cljs-react-material-ui.core :refer [get-mui-theme color]]
             [cljs-react-material-ui.reagent :as material-ui]
             [cljs-react-material-ui.icons :as ic]
@@ -11,11 +11,36 @@
             [widgetshop.app.products :as products]
             [widgetshop.app.ui :as ui]
             [widgetshop.category-page :as category-page]
-            [widgetshop.product-page :as product-page]))
+            [widgetshop.product-page :as product-page]
+            [goog.events :as events]
+            [bidi.bidi :as bidi]
+            [goog.history.EventType :as EventType])
+  (:import [goog History]
+           [goog.history EventType]))
+
+(enable-console-print!)
+
 
 (def keyword->page
   {:category-page category-page/get
    :product-page product-page/get })
+
+(def ui-routes
+  ["/" {"category" :category-page
+        "product" :product-page}])
+
+(defn match-event
+  [x]
+  (if-let [match (bidi/match-route ui-routes x)]
+    (ui/set-page! (:handler match))))
+
+(def history
+  (doto (History.)
+    (events/listen EventType.NAVIGATE
+                   (fn [event] (match-event (.-token event))))
+    (.setEnabled true)))
+
+
 
 (defn show-page
   [app]

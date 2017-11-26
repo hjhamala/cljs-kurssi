@@ -32,6 +32,9 @@
                  ;; Doo for testing
                  [lein-doo "0.1.7"]
 
+                 ;; Routing library for the frontend
+                 [bidi "2.1.2"]
+
                  ;; Frontend UI-libraries
                  [reagent "0.7.0"]
                  [cljsjs/react "15.6.1-1"]

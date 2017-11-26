@@ -8,7 +8,7 @@
 (s/def ::name string?)
 (s/def ::description string?)
 (s/def ::category (s/nilable (s/keys :req-un [::id ::name ::description])))
-(s/def ::categories (s/coll-of ::category))
+(s/def ::categories (s/or :loading ::loading :categories (s/coll-of ::category)))
 (s/def ::price double?)
 
 (s/def ::review-score #(and (<= 1 %) (>= 5 %)))

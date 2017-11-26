@@ -1,6 +1,10 @@
 (ns widgetshop.app.ui
   (:require [widgetshop.app.state :as state]))
 
+(defn switch-page!
+  [page]
+  (set! js/window.location.href (str "index.html#/" page)))
+
 (defn current-page
   [app]
   (-> (:ui app) :page))
@@ -28,4 +32,5 @@
   [product]
   (state/update-state!
     select-product
-    product))
+    product)
+  (switch-page! "product"))

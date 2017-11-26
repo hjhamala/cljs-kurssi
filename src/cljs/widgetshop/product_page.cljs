@@ -34,7 +34,7 @@
              [material-ui/raised-button {:key (str "button" review-button) :primary true :on-click #(products/give-review! product review-button)} review-button]
              [material-ui/flat-button {:key (str "button" review-button) :primary true :on-click #(products/give-review! product review-button)} review-button]))]
        [:div ""]
-       [material-ui/flat-button {:primary true :on-click #(ui/set-page! :category-page)} "Back to category selector"]])))
+       [material-ui/flat-button {:primary true :on-click #(ui/switch-page! "category")} "Back to category selector"]])))
 
 (defn get
   [app]
