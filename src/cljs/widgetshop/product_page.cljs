@@ -36,7 +36,7 @@
        [:div ""]
        [material-ui/flat-button {:primary true :on-click #(ui/switch-page! "category")} "Back to category selector"]])))
 
-(defn get
+(defn get-page
   [app]
   [material-ui/paper
    [product-listing app]])

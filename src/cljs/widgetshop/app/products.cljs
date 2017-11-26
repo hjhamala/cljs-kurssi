@@ -79,4 +79,27 @@
   [app]
   (reduce (fn [val [product size]] (+ val size)) 0 (:cart app)))
 
+(defn cart
+  [app]
+  (:cart app))
+
+(defn filter-zero-or-blanks
+  [m]
+  (reduce (fn [acc [k v]] (if (or (= "" v) (= 0 v))
+                                  acc
+                                  (assoc acc k v)
+                                  )) {} m))
+
+(defn update-cart
+  [app cart]
+  (println "updating " cart)
+  (let [filtered-cart (filter-zero-or-blanks cart)]
+    (assoc app :cart filtered-cart)))
+
+(defn update-cart!
+  [cart]
+  (state/update-state!
+    update-cart cart))
+
+
 

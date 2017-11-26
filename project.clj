@@ -80,6 +80,8 @@
           [{:id           "cljs-test"
             :source-paths ["src/cljs" "src/cljc" "test/cljs/"]
             :compiler     {:output-to     "out/browser_tests.js"
+                           :foreign-libs [{:file "src" :module-type :es6}]
+                           :npm-deps {:average "0.1.0"}
                            :main          "widgetshop.test-runner"
                            :target        :phantom
                            :optimizations :none}}

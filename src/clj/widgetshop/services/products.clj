@@ -4,7 +4,8 @@
             [compojure.core :refer [routes GET POST]]
             [clojure.java.jdbc :as jdbc]
             [widgetshop.db :as db]
-            [clojure.spec.alpha :as s]))
+            [clojure.spec.alpha :as s]
+            [clojure.java.io :as io]))
 
 (defn fetch-products-for-category [db category]
   (into []
@@ -24,8 +25,9 @@
     (assoc this ::routes
            (publish! http
                      (routes
-                       (GET "/" [] {:status 302
-                                    :headers {"Location" "/index.html"}})
+                       (GET "/" [] {:status  200
+                                    :headers {"Content-Type" "text/html"}
+                                    :body    (io/file "resources/public/index.html")})
                       (GET "/categories" []
                            (transit-response
                             (fetch-product-categories db)))

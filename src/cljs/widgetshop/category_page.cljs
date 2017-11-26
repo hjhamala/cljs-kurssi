@@ -51,7 +51,7 @@
                                       :primary true :on-click #(products/add-to-cart! product)}
              "Add to cart"]]])]])))
 
-(defn get
+(defn get-page
   [app]
   [material-ui/paper
    [category-selector app]

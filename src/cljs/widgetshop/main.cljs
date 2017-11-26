@@ -12,6 +12,7 @@
             [widgetshop.app.ui :as ui]
             [widgetshop.category-page :as category-page]
             [widgetshop.product-page :as product-page]
+            [widgetshop.cart-page :as cart-page]
             [goog.events :as events]
             [bidi.bidi :as bidi]
             [goog.history.EventType :as EventType])
@@ -22,17 +23,20 @@
 
 
 (def keyword->page
-  {:category-page category-page/get
-   :product-page product-page/get })
+  {:category-page category-page/get-page
+   :product-page product-page/get-page
+   :cart-page cart-page/get-page})
 
 (def ui-routes
   ["/" {"category" :category-page
-        "product" :product-page}])
+        "product" :product-page
+        "cart" :cart-page}])
 
 (defn match-event
   [x]
   (if-let [match (bidi/match-route ui-routes x)]
-    (ui/set-page! (:handler match))))
+    (ui/set-page! (:handler match))
+    (ui/set-page! :category-page)))
 
 (def history
   (doto (History.)
@@ -58,7 +62,8 @@
                  (r/as-element [material-ui/badge {:id "cart-size"
                                                    :badge-content (products/cart-size app)
                                           :badge-style {:top 12 :right 12}}
-                                [material-ui/icon-button {:tooltip "Checkout"}
+                                [material-ui/icon-button {:on-click #(ui/switch-page! "cart")
+                                                          :tooltip "Checkout"}
                                  (ic/action-shopping-cart)]])}]
     [:p "Hello user! " (user/info app)]
     [material-ui/flat-button {:primary true :on-click user/switch!} "Switch user"]

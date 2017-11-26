@@ -3,7 +3,7 @@
 
 (defn switch-page!
   [page]
-  (set! js/window.location.href (str "index.html#/" page)))
+  (set! js/window.location.href (str "#/" page)))
 
 (defn current-page
   [app]
