@@ -30,3 +30,7 @@
 (s/def ::logged-user ::user)
 (s/def ::db (s/keys :req-un [::logged-user ::cart  ::stars ::categories ::products-by-category]))
 
+(s/def ::checkout-form (s/keys :req [::customer-name ::address ::visa-number]))
+(s/def ::customer-name #(and (string? %) (> (count %) 1)))
+(s/def ::address #(and (string? %) (> (count %) 1)))
+(s/def ::visa-number #(and (string? %) (> (count %) 5)))

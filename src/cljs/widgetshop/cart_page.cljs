@@ -51,7 +51,9 @@
         [:div ""]
         (if cart-edited?
           [material-ui/flat-button {:primary true :on-click #(do (products/update-cart! cart)(ui/switch-page! "category"))} "Save edits"]
-          [material-ui/flat-button {:primary true :on-click #(ui/switch-page! "category")} "Back to category selector"])]))))
+          [material-ui/flat-button {:primary true :on-click #(ui/switch-page! "category")} "Back to category selector"])
+         [:div ""]
+         [material-ui/flat-button {:primary true :on-click #(do (products/update-cart! cart)(ui/switch-page! "checkout"))} "Checkout and order"]]))))
 
 (defn get-page
   [app]

@@ -13,6 +13,9 @@
             [widgetshop.category-page :as category-page]
             [widgetshop.product-page :as product-page]
             [widgetshop.cart-page :as cart-page]
+            [widgetshop.checkout-page :as checkout-page]
+            [widgetshop.success-page :as success-page]
+            [widgetshop.error-page :as error-page]
             [goog.events :as events]
             [bidi.bidi :as bidi]
             [goog.history.EventType :as EventType])
@@ -25,26 +28,30 @@
 (def keyword->page
   {:category-page category-page/get-page
    :product-page product-page/get-page
-   :cart-page cart-page/get-page})
+   :cart-page cart-page/get-page
+   :success-page success-page/get-page
+   :error-page error-page/get-page
+   :checkout-page checkout-page/get-page})
 
 (def ui-routes
   ["/" {"category" :category-page
         "product" :product-page
-        "cart" :cart-page}])
+        "cart" :cart-page
+        "success" :success-page
+        "error" :error-page
+        "checkout" :checkout-page}])
 
-(defn match-event
+(defn match-event!
   [x]
   (if-let [match (bidi/match-route ui-routes x)]
     (ui/set-page! (:handler match))
     (ui/set-page! :category-page)))
 
-(def history
+(defonce history
   (doto (History.)
     (events/listen EventType.NAVIGATE
-                   (fn [event] (match-event (.-token event))))
+                   (fn [event] (match-event! (.-token event))))
     (.setEnabled true)))
-
-
 
 (defn show-page
   [app]
