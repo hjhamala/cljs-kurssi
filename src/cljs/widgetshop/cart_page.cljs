@@ -1,6 +1,7 @@
 (ns widgetshop.cart-page
   (:require
     [reagent.core :as r]
+    [re-frame.core :as rf]
     [cljsjs.material-ui]
     [cljs-react-material-ui.core :refer [get-mui-theme color]]
     [cljs-react-material-ui.reagent :as material-ui]
@@ -26,10 +27,10 @@
 
 (defn cart-listing
   [app]
-  (let [editable-cart (reagent/atom (products/cart app))]
+  (let [editable-cart (reagent/atom @(rf/subscribe [:cart]))]
     (fn [app]
       (let [cart @editable-cart
-            cart-edited? (not= cart (products/cart app))]
+            cart-edited? (not= cart @(rf/subscribe [:cart]))]
         [:div
           [material-ui/table
            [material-ui/table-header {:display-select-all false :adjust-for-checkbox false}
@@ -50,10 +51,10 @@
                                                :value amount}]]])]]
         [:div ""]
         (if cart-edited?
-          [material-ui/flat-button {:primary true :on-click #(do (products/update-cart! cart)(ui/switch-page! "category"))} "Save edits"]
+          [material-ui/flat-button {:primary true :on-click #(do (rf/dispatch [:update-cart cart])(ui/switch-page! "category"))} "Save edits"]
           [material-ui/flat-button {:primary true :on-click #(ui/switch-page! "category")} "Back to category selector"])
          [:div ""]
-         [material-ui/flat-button {:primary true :on-click #(do (products/update-cart! cart)(ui/switch-page! "checkout"))} "Checkout and order"]]))))
+         [material-ui/flat-button {:primary true :on-click #(do (rf/dispatch [:update-cart cart]) (ui/switch-page! "checkout"))} "Checkout and order"]]))))
 
 (defn get-page
   [app]

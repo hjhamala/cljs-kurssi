@@ -1,5 +1,7 @@
 (ns widgetshop.app.ui
-  (:require [widgetshop.app.state :as state]))
+  (:require [widgetshop.app.state :as state]
+            [re-frame.core :as rf]
+            [day8.re-frame.http-fx]))
 
 (defn switch-page!
   [page]
@@ -23,14 +25,21 @@
   [app]
   (-> (:ui app) :selected-product))
 
+(rf/reg-sub
+  :selected-product
+  (fn [db _]
+    (selected-product db)))
+
 (defn select-product
-  [app category]
-  (-> (assoc-in app [:ui :selected-product] category)
+  [db category]
+  (-> (assoc-in db [:ui :selected-product] category)
       (assoc-in [:ui :page] :product-page)))
 
-(defn select-product!
-  [product]
-  (state/update-state!
-    select-product
-    product)
-  (switch-page! "product"))
+(rf/reg-event-db
+  :select-product
+  [state/check-spec-interceptor]
+  (fn [db [_ product]]
+    (println "select product")
+    (switch-page! "product")
+    (select-product db product)))
+

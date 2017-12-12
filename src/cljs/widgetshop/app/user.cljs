@@ -1,5 +1,6 @@
 (ns widgetshop.app.user
   (:require [js.uuid :as uuid]
+            [re-frame.core :as rf]
             [widgetshop.app.state :as state]
             [widgetshop.app.ui :as ui]
             [widgetshop.server :as server]))
@@ -7,6 +8,11 @@
 (defn info
   [app]
   (:logged-user app))
+
+(rf/reg-sub
+  :user-info
+  (fn [db _]
+    (info db)))
 
 (defn switch
   [app]
@@ -20,8 +26,7 @@
                           :on-failure #(do
                                          (println "error: " %)
                                          (ui/switch-page! "error"))}))
-
-(defn switch!
-  []
-  (state/update-state!
-    switch))
+(rf/reg-event-db
+  :switch-user
+  (fn [db _]
+    (switch db)))

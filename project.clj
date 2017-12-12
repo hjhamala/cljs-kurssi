@@ -45,6 +45,10 @@
                  ;; Something pulls an old guava which prevents closure compiler
                  ;; override here
                  [com.google.guava/guava "21.0"]
+
+                 ;;
+                 [re-frame "0.10.2"]
+                 [day8.re-frame/http-fx "0.1.4"]
                  ]
 
   :plugins [[lein-cljsbuild "1.1.5"]
