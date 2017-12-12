@@ -11,9 +11,8 @@
     [widgetshop.app.ui :as ui]))
 
 (defn category-selector
-  [app]
+  []
   ;; Product category selection
-  (when-not @(rf/subscribe [:loading-categories?])
     [material-ui/select-field {:id "select-product-category"
                                :floating-label-text "Select product category"
                                :value (:id  @(rf/subscribe [:category]))
@@ -22,10 +21,10 @@
      (for [{:keys [id name] :as category} @(rf/subscribe [:categories])]
        ^{:key id}
        [material-ui/menu-item {:id (str "menu-item-id-" id)
-                               :value id :primary-text name}])]))
+                               :value id :primary-text name}])])
 
 (defn products-listing
-  [app]
+  []
   ;; Product listing for the selected category
   (let [products @(rf/subscribe [:products-from-selected-category])]
     (if (= :loading products)
@@ -40,7 +39,7 @@
          [material-ui/table-header-column "Review"]
          [material-ui/table-header-column "Add to cart"]]]
        [material-ui/table-body {:display-row-checkbox false}
-        (for [{:keys [id name description price] :as product} products]
+        (doall (for [{:keys [id name description price] :as product} products]
           ^{:key id}
           [material-ui/table-row
            [material-ui/table-row-column [:div {:on-click #(rf/dispatch [:select-product product])} name]]
@@ -50,13 +49,14 @@
            [material-ui/table-row-column
             [material-ui/flat-button {:id (str "add-to-cart-button-" id)
                                       :primary true :on-click #(rf/dispatch [:add-to-cart product])}
-             "Add to cart"]]])]])))
+             "Add to cart"]]]))]])))
 
 (defn get-page
   [app]
   [material-ui/paper
-   [category-selector app]
-   [products-listing app]
+   (when-not @(rf/subscribe [:loading-categories?])
+     [category-selector])
+   [products-listing]
    [material-ui/raised-button {:label        "Click me"
                                :icon         (ic/social-group)
                                :on-click     #(println "clicked")}]])

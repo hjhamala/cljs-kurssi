@@ -3,6 +3,8 @@
             [re-frame.core :as rf]
             [day8.re-frame.http-fx]))
 
+
+
 (defn switch-page!
   [page]
   (set! js/window.location.href (str "#/" page)))
@@ -15,11 +17,11 @@
   [app page-kw]
   (assoc-in app [:ui :page] page-kw))
 
-(defn set-page!
-  [page-kw]
-  (state/update-state!
-    set-page
-    page-kw))
+(rf/reg-event-db
+  :set-page
+  []
+  (fn [db [_ page-kw]]
+    (set-page db page-kw)))
 
 (defn selected-product
   [app]
@@ -42,4 +44,17 @@
     (println "select product")
     (switch-page! "product")
     (select-product db product)))
+
+
+(rf/reg-sub
+  :current-page
+  (fn [db _]
+    (current-page db)))
+
+
+(rf/reg-event-db
+  :set-page
+  []
+  (fn [db [_ page-kw]]
+    (set-page db page-kw)))
 
